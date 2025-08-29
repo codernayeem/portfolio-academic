@@ -110,11 +110,11 @@ include 'includes/header.php';
                         <span class="stat-label">Projects</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">3+</span>
+                        <span class="stat-number">5+</span>
                         <span class="stat-label">Years Learning</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number">5+</span>
+                        <span class="stat-number">6+</span>
                         <span class="stat-label">Technologies</span>
                     </div>
                     <div class="stat-item">
