@@ -12,7 +12,7 @@ try {
     $achievements = $achievementsStmt->fetchAll();
     
     // Fetch education from database
-    $educationStmt = $pdo->query("SELECT * FROM education ORDER BY id DESC");
+    $educationStmt = $pdo->query("SELECT * FROM education ORDER BY CASE WHEN duration LIKE '%Present%' THEN 1 ELSE 0 END DESC, duration DESC");
     $education = $educationStmt->fetchAll();
     
 } catch (Exception $e) {
@@ -446,6 +446,54 @@ include 'includes/header.php';
                 </div>
             <?php endif; ?>
         </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="section education">
+    <div class="container">
+        <h2 class="section-title">Education</h2>
+        <?php if (empty($education)): ?>
+            <div class="text-center">
+                <p class="text-gray-500">No education records available at the moment.</p>
+            </div>
+        <?php else: ?>
+            <div class="timeline">
+                <?php foreach ($education as $index => $edu): ?>
+                    <div class="timeline-item <?php echo $index % 2 == 0 ? 'left' : 'right'; ?>">
+                        <div class="timeline-dot">
+                            <div class="timeline-icon">🎓</div>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-card">
+                                <div class="timeline-header">
+                                    <h3 class="timeline-degree"><?php echo htmlspecialchars($edu['degree']); ?></h3>
+                                    <span class="timeline-duration">
+                                        <?php echo isset($edu['duration']) ? htmlspecialchars($edu['duration']) : '2023 - Present'; ?>
+                                    </span>
+                                </div>
+                                <h4 class="timeline-institution"><?php echo htmlspecialchars($edu['institution']); ?></h4>
+                                <p class="timeline-description"><?php echo htmlspecialchars($edu['description']); ?></p>
+                                
+                                <?php if (!empty($edu['achievements'])): ?>
+                                    <div class="timeline-achievements">
+                                        <strong>Key Achievements:</strong>
+                                        <ul>
+                                            <?php 
+                                            $achievementList = explode(',', $edu['achievements']);
+                                            foreach ($achievementList as $achievement): 
+                                            ?>
+                                                <li><?php echo htmlspecialchars(trim($achievement)); ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
