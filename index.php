@@ -375,4 +375,78 @@ include 'includes/header.php';
     </div>
 </section>
 
+<!-- Achievements Section -->
+<section id="achievements" class="section achievements">
+    <div class="container">
+        <h2 class="section-title">Achievements & Teamwork</h2>
+        <div class="achievements-container">
+            <?php if (empty($achievements)): ?>
+                <div class="text-center">
+                    <p class="text-gray-500">No achievements available at the moment.</p>
+                </div>
+            <?php else: ?>
+                <div class="achievements-scroll">
+                    <?php 
+                    // First set of achievements
+                    foreach ($achievements as $index => $achievement): ?>
+                        <div class="achievement-card">
+                            <?php if (!empty($achievement['image_url'])): ?>
+                                <div class="achievement-image">
+                                    <img src="<?php echo htmlspecialchars($achievement['image_url']); ?>" 
+                                         alt="<?php echo htmlspecialchars($achievement['title']); ?>"
+                                         onerror="this.style.display='none'">
+                                </div>
+                            <?php endif; ?>
+                            <div class="achievement-header">
+                                <span class="achievement-category">
+                                    <?php echo htmlspecialchars($achievement['category']); ?>
+                                </span>
+                                <span class="achievement-date">
+                                    <?php echo formatDate($achievement['achievement_date']); ?>
+                                </span>
+                            </div>
+                            <?php if (!empty($achievement['role'])): ?>
+                                <div class="achievement-role">
+                                    👤 <?php echo htmlspecialchars($achievement['role']); ?>
+                                </div>
+                            <?php endif; ?>
+                            <h3><?php echo htmlspecialchars($achievement['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($achievement['description']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                    
+                    <?php 
+                    // Duplicate set for seamless loop
+                    foreach ($achievements as $index => $achievement): ?>
+                        <div class="achievement-card">
+                            <?php if (!empty($achievement['image_url'])): ?>
+                                <div class="achievement-image">
+                                    <img src="<?php echo htmlspecialchars($achievement['image_url']); ?>" 
+                                         alt="<?php echo htmlspecialchars($achievement['title']); ?>"
+                                         onerror="this.style.display='none'">
+                                </div>
+                            <?php endif; ?>
+                            <div class="achievement-header">
+                                <span class="achievement-category">
+                                    <?php echo htmlspecialchars($achievement['category']); ?>
+                                </span>
+                                <span class="achievement-date">
+                                    <?php echo formatDate($achievement['achievement_date']); ?>
+                                </span>
+                            </div>
+                            <?php if (!empty($achievement['role'])): ?>
+                                <div class="achievement-role">
+                                    👤 <?php echo htmlspecialchars($achievement['role']); ?>
+                                </div>
+                            <?php endif; ?>
+                            <h3><?php echo htmlspecialchars($achievement['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($achievement['description']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
 <?php include 'includes/footer.php'; ?>

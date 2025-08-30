@@ -47,7 +47,7 @@ function redirectToAdmin() {
 }
 
 function formatDate($date) {
-    return date('F j, Y', strtotime($date));
+    return date('M Y', strtotime($date));
 }
 
 function formatDateTime($datetime) {
