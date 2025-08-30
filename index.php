@@ -312,4 +312,67 @@ include 'includes/header.php';
 </section>
 
 
+<!-- Projects Section -->
+<section id="projects" class="section projects">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            <?php if (empty($projects)): ?>
+                <div class="col-span-full">
+                    <p class="text-center text-gray-500">No projects available at the moment.</p>
+                </div>
+            <?php else: ?>
+                <?php foreach ($projects as $project): ?>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <?php if (!empty($project['image_url'])): ?>
+                                <img src="<?php echo htmlspecialchars($project['image_url']); ?>" 
+                                     alt="<?php echo htmlspecialchars($project['title']); ?>"
+                                     onerror="this.parentElement.innerHTML='<span>No Image Available</span>'">
+                            <?php else: ?>
+                                <span>No Image Available</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title"><?php echo htmlspecialchars($project['title']); ?></h3>
+                            <p class="project-description">
+                                <?php echo htmlspecialchars(truncateText($project['description'], 120)); ?>
+                            </p>
+                            <div class="project-tech">
+                                <?php 
+                                // Use tags if available, otherwise fall back to technologies
+                                $techList = !empty($project['tags']) ? $project['tags'] : $project['technologies'];
+                                $technologies = explode(',', $techList);
+                                foreach ($technologies as $tech): 
+                                ?>
+                                    <span class="tech-tag"><?php echo htmlspecialchars(trim($tech)); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="project-links">
+                                <?php if (!empty($project['github_link'])): ?>
+                                    <a href="<?php echo htmlspecialchars($project['github_link']); ?>" 
+                                       target="_blank" class="btn btn-secondary">
+                                        GitHub
+                                    </a>
+                                <?php endif; ?>
+                                <?php if (!empty($project['live_link'])): ?>
+                                    <a href="<?php echo htmlspecialchars($project['live_link']); ?>" 
+                                       target="_blank" class="btn btn-primary">
+                                        Live Demo
+                                    </a>
+                                <?php elseif (!empty($project['demo_link'])): ?>
+                                    <a href="<?php echo htmlspecialchars($project['demo_link']); ?>" 
+                                       target="_blank" class="btn btn-primary">
+                                        Live Demo
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
 <?php include 'includes/footer.php'; ?>
