@@ -124,4 +124,70 @@ function addScrollAnimations() {
 }
 
 // Initialize scroll animations when DOM is loaded
-document.addEventListener('DOMContentLoaded', addScrollAnimations);
+// and contact form functionality
+document.addEventListener('DOMContentLoaded', function() {
+    addScrollAnimations();
+    initContactForm();
+});
+
+
+// Contact form functionality
+function initContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const alertContainer = document.getElementById('alert-container');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+            submitBtn.disabled = true;
+            
+            // Clear previous alerts
+            alertContainer.innerHTML = '';
+            
+            try {
+                const formData = new FormData(contactForm);
+                const response = await fetch('api/contact.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Message sent successfully! Thank you for contacting me.', 'success');
+                    contactForm.reset();
+                } else {
+                    showAlert(data.message || 'Something went wrong. Please try again.', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+}
+
+// Show alert messages
+function showAlert(message, type) {
+    const alertContainer = document.getElementById('alert-container');
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    alertContainer.appendChild(alertDiv);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.parentNode.removeChild(alertDiv);
+        }
+    }, 5000);
+}

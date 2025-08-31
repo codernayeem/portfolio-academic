@@ -497,4 +497,44 @@ include 'includes/header.php';
     </div>
 </section>
 
+<!-- Contact Section -->
+<section id="contact" class="section contact">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <p>
+                    I'm always open to discussing new opportunities, interesting projects, 
+                    or just having a friendly chat about technology and development.
+                </p>
+            </div>
+            
+            <div class="contact-form">
+                <div id="alert-container"></div>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name *</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message *</label>
+                        <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
 <?php include 'includes/footer.php'; ?>
