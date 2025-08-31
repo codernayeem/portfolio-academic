@@ -141,6 +141,21 @@ function initContactForm() {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            // Basic validation - only show alerts, no inline errors
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !message) {
+                showAlert('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showAlert('Please enter a valid email address.', 'error');
+                return;
+            }
+            
             // Show loading state
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<span class="loading"></span> Sending...';

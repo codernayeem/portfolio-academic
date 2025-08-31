@@ -504,34 +504,83 @@ include 'includes/header.php';
         <div class="contact-content">
             <div class="contact-info">
                 <h3>Let's Connect</h3>
-                <p>
+                <p class="contact-description">
                     I'm always open to discussing new opportunities, interesting projects, 
                     or just having a friendly chat about technology and development.
                 </p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-info-content">
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:nayeem.coder@gmail.com" class="contact-value">nayeem.coder@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-info-content">
+                            <span class="contact-label">Phone</span>
+                            <a href="tel:+8801968199036" class="contact-value">+8801968199036</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-info-content">
+                            <span class="contact-label">Location</span>
+                            <span class="contact-value">Khulna, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-status">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Available for opportunities</span>
+                    </div>
+                </div>
             </div>
             
-            <div class="contact-form">
-                <div id="alert-container"></div>
-                <form id="contact-form">
-                    <div class="form-group">
-                        <label for="name" class="form-label">Name *</label>
-                        <input type="text" id="name" name="name" class="form-input" required>
-                    </div>
+            <div class="contact-form-container">
+                <div class="contact-form">
+                    <div id="alert-container"></div>
                     
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email *</label>
-                        <input type="email" id="email" name="email" class="form-input" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message" class="form-label">Message *</label>
-                        <textarea id="message" name="message" class="form-textarea" rows="5" required></textarea>
-                    </div>
-                    
-                    <button type="submit" id="submit-btn" class="btn btn-primary">
-                        Send Message
-                    </button>
-                </form>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name *</label>
+                            <input type="text" id="name" name="name" class="form-input" required placeholder="Your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" id="email" name="email" class="form-input" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" name="message" class="form-textarea" rows="6" required placeholder="Tell me about your project or just say hello..."></textarea>
+                        </div>
+                        <div style="text-align: center;">
+                        <button type="submit" id="submit-btn" class="btn btn-primary contact-submit">
+                            Send Message
+                        </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
