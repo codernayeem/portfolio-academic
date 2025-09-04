@@ -97,7 +97,7 @@ include 'includes/header.php';
                     </div>
                 </div>
 
-                <div class="about-section-item">
+                <div class="about-section-item need-top-margin">
                     <h3>My Goals</h3>
                     <p>
                         I aim to leverage technology to solve real-world problems and create impactful solutions. My future goals include mastering AI/ML technologies and contributing to open-source projects that make a difference in people's lives.

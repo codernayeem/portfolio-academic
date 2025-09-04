@@ -2001,6 +2001,22 @@ a:hover {
         grid-template-columns: 1fr;
         gap: var(--spacing-xl);
     }
+
+    .need-top-margin {
+        margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+        .need-top-margin {
+            margin-top: var(--spacing-xl);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .need-top-margin {
+            margin-top: var(--spacing-xl);
+        }
+    }
     
     /* Skills responsive design */
     .skills-grid {
