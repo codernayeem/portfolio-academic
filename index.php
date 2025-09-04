@@ -331,62 +331,92 @@ include 'includes/header.php';
 <section id="projects" class="section projects">
     <div class="container">
         <h2 class="section-title">Featured Projects</h2>
-        <div class="projects-grid">
-            <?php if (empty($projects)): ?>
-                <div class="col-span-full">
-                    <p class="text-center text-gray-500">No projects available at the moment.</p>
-                </div>
-            <?php else: ?>
-                <?php foreach ($projects as $project): ?>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <?php if (!empty($project['image_url'])): ?>
-                                <img src="<?php echo htmlspecialchars($project['image_url']); ?>" 
-                                     alt="<?php echo htmlspecialchars($project['title']); ?>"
-                                     onerror="this.parentElement.innerHTML='<span>No Image Available</span>'">
-                            <?php else: ?>
-                                <span>No Image Available</span>
-                            <?php endif; ?>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title"><?php echo htmlspecialchars($project['title']); ?></h3>
-                            <p class="project-description">
-                                <?php echo htmlspecialchars(truncateText($project['description'], 120)); ?>
-                            </p>
-                            <div class="project-tech">
-                                <?php 
-                                // Use tags if available, otherwise fall back to technologies
-                                $techList = !empty($project['tags']) ? $project['tags'] : $project['technologies'];
-                                $technologies = explode(',', $techList);
-                                foreach ($technologies as $tech): 
-                                ?>
-                                    <span class="tech-tag"><?php echo htmlspecialchars(trim($tech)); ?></span>
-                                <?php endforeach; ?>
+        <?php if (empty($projects)): ?>
+            <div class="text-center">
+                <p class="text-gray-500">No projects available at the moment.</p>
+            </div>
+        <?php else: ?>
+            <div class="projects-carousel-container">
+                <!-- Navigation buttons -->
+                <button class="carousel-nav carousel-nav-prev" id="prevBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+                <button class="carousel-nav carousel-nav-next" id="nextBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                    </svg>
+                </button>
+
+                <!-- Carousel wrapper -->
+                <div class="projects-carousel-wrapper">
+                    <div class="projects-carousel" id="projectsCarousel">
+                        <?php foreach ($projects as $index => $project): ?>
+                            <div class="project-slide <?php echo $index === 0 ? 'active' : ''; ?>" data-index="<?php echo $index; ?>">
+                                <div class="project-card-modern">
+                                    <div class="project-image-modern">
+                                        <?php if (!empty($project['image_url'])): ?>
+                                            <img src="<?php echo htmlspecialchars($project['image_url']); ?>" 
+                                                 alt="<?php echo htmlspecialchars($project['title']); ?>"
+                                                 onerror="this.parentElement.innerHTML='<div class=\'placeholder-icon\'><svg width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'/></svg></div>'">
+                                        <?php else: ?>
+                                            <div class="placeholder-icon">
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                                </svg>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="project-overlay">
+                                            <div class="project-links-overlay">
+                                                <?php if (!empty($project['github_link'])): ?>
+                                                    <a href="<?php echo htmlspecialchars($project['github_link']); ?>" 
+                                                       target="_blank" class="link-btn">
+                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                                                        </svg>
+                                                    </a>
+                                                <?php endif; ?>
+                                                <?php if (!empty($project['live_link']) || !empty($project['demo_link'])): ?>
+                                                    <a href="<?php echo htmlspecialchars(!empty($project['live_link']) ? $project['live_link'] : $project['demo_link']); ?>" 
+                                                       target="_blank" class="link-btn">
+                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zM19 19H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z"/>
+                                                        </svg>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-content-modern">
+                                        <h3 class="project-title-modern"><?php echo htmlspecialchars($project['title']); ?></h3>
+                                        <p class="project-description-modern">
+                                            <?php echo htmlspecialchars(truncateText($project['description'], 100)); ?>
+                                        </p>
+                                        <div class="project-tech-modern">
+                                            <?php 
+                                            $techList = !empty($project['tags']) ? $project['tags'] : $project['technologies'];
+                                            $technologies = array_slice(explode(',', $techList), 0, 3); // Show only first 3 tags
+                                            foreach ($technologies as $tech): 
+                                            ?>
+                                                <span class="tech-tag-modern"><?php echo htmlspecialchars(trim($tech)); ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="project-links">
-                                <?php if (!empty($project['github_link'])): ?>
-                                    <a href="<?php echo htmlspecialchars($project['github_link']); ?>" 
-                                       target="_blank" class="btn btn-secondary">
-                                        GitHub
-                                    </a>
-                                <?php endif; ?>
-                                <?php if (!empty($project['live_link'])): ?>
-                                    <a href="<?php echo htmlspecialchars($project['live_link']); ?>" 
-                                       target="_blank" class="btn btn-primary">
-                                        Live Demo
-                                    </a>
-                                <?php elseif (!empty($project['demo_link'])): ?>
-                                    <a href="<?php echo htmlspecialchars($project['demo_link']); ?>" 
-                                       target="_blank" class="btn btn-primary">
-                                        Live Demo
-                                    </a>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </div>
+                </div>
+
+                <!-- Dots indicator -->
+                <div class="carousel-dots" id="carouselDots">
+                    <?php for ($i = 0; $i < count($projects); $i++): ?>
+                        <button class="dot <?php echo $i === 0 ? 'active' : ''; ?>" data-index="<?php echo $i; ?>"></button>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 

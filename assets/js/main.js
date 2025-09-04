@@ -172,7 +172,197 @@ function addScrollAnimations() {
 document.addEventListener('DOMContentLoaded', function() {
     addScrollAnimations();
     initContactForm();
+    initProjectsCarousel();
 });
+
+// Projects Carousel functionality
+function initProjectsCarousel() {
+    const carousel = document.getElementById('projectsCarousel');
+    const slides = document.querySelectorAll('.project-slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (!carousel || slides.length === 0) return;
+    
+    let currentIndex = 0;
+    let autoplayInterval;
+    let isTransitioning = false;
+    
+    // Update carousel position and classes
+    function updateCarousel() {
+        if (isTransitioning) return;
+        
+        isTransitioning = true;
+        
+        // Remove all classes first
+        slides.forEach(slide => {
+            slide.classList.remove('active', 'prev', 'next');
+        });
+        
+        // Calculate indices
+        const totalSlides = slides.length;
+        const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        const nextIndex = (currentIndex + 1) % totalSlides;
+        
+        // Apply classes
+        slides[currentIndex].classList.add('active');
+        slides[prevIndex].classList.add('prev');
+        slides[nextIndex].classList.add('next');
+        
+        // Update active dot
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Reset transition flag after animation
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 800);
+    }
+    
+    // Go to next slide
+    function nextSlide() {
+        if (isTransitioning) return;
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+        resetAutoplay();
+    }
+    
+    // Go to previous slide
+    function prevSlide() {
+        if (isTransitioning) return;
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel();
+        resetAutoplay();
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+        if (isTransitioning || index === currentIndex) return;
+        currentIndex = index;
+        updateCarousel();
+        resetAutoplay();
+    }
+    
+    // Start autoplay
+    function startAutoplay() {
+        // Clear any existing interval first
+        stopAutoplay();
+        autoplayInterval = setInterval(() => {
+            nextSlide();
+        }, 6000); // Consistent 6 seconds
+    }
+    
+    // Stop autoplay
+    function stopAutoplay() {
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+    }
+    
+    // Reset autoplay - ensures consistent timing
+    function resetAutoplay() {
+        stopAutoplay();
+        // Small delay to ensure smooth transition
+        setTimeout(() => {
+            startAutoplay();
+        }, 100);
+    }
+    
+    // Event listeners
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Pause autoplay on hover
+    const carouselContainer = document.querySelector('.projects-carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopAutoplay);
+        carouselContainer.addEventListener('mouseleave', startAutoplay);
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        }
+    });
+    
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+    
+    carousel.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        stopAutoplay();
+    });
+    
+    carousel.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+    
+    carousel.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const deltaX = startX - endX;
+        const deltaY = startY - endY;
+        
+        // Check if horizontal swipe is more significant than vertical
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        } else {
+            startAutoplay();
+        }
+        
+        isDragging = false;
+    });
+    
+    // Click on side slides to navigate
+    slides.forEach((slide, index) => {
+        slide.addEventListener('click', (e) => {
+            if (!slide.classList.contains('active')) {
+                e.preventDefault();
+                goToSlide(index);
+            }
+        });
+    });
+    
+    // Initialize
+    updateCarousel();
+    startAutoplay();
+    
+    // Pause autoplay when page is not visible
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopAutoplay();
+        } else {
+            startAutoplay();
+        }
+    });
+}
 
 
 // Contact form functionality
